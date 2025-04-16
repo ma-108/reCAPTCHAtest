@@ -1,22 +1,28 @@
-<html>
-  <head>
-    <title>reCAPTCHA demo: Explicit render after an onload callback</title>
-    <script type="text/javascript">
-      var onloadCallback = function() {
-        grecaptcha.render('html_element', {
-          '6LfPfhorAAAAAEZYkIqPmPNfVFMuQn6pz4yzl3ZT' : '6LfPfhorAAAAAEZYkIqPmPNfVFMuQn6pz4yzl3ZT'
-        });
-      };
-    </script>
-  </head>
-  <body>
-    <form action="?" method="POST">
-      <div id="html_element"></div>
-      <br>
-      <input type="submit" value="Submit">
-    </form>
-    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
-        async defer>
-    </script>
-  </body>
+<html lang="ja">
+<head>
+<title>g-recaptcha タグを使って表示</title>
+<script> 
+  var verifyCallback = function(response) { //コールバック関数の定義
+    //#warning の p 要素のテキストを空に
+    document.getElementById("warning").textContent = '';
+    //#send の button 要素の disabled 属性を解除
+    document.getElementById("send").disabled = false;
+  };
+  var expiredCallback = function() { //コールバック関数の定義
+    //#warning の p 要素のテキストに文字列を設定
+    document.getElementById("warning").textContent = '送信するにはチェックを・・・';
+    //#send の button 要素に disabled 属性を設定
+    document.getElementById("send").disabled = true;
+  };
+</script>
+</head>
+<body>
+  <h1>g-recaptcha タグを使って表示</h1>
+  <form method="post" action="?">
+    <div class="g-recaptcha" data-sitekey="6LfPfhorAAAAAEZYkIqPmPNfVFMuQn6pz4yzl3ZT" data-callback="verifyCallback" data-expired-callback="expiredCallback"></div>
+    <p id="warning">送信するにはチェックを入れてください。</p>
+    <button id="send" type="submit" disabled>送信</button>
+  </form>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</body>
 </html>
