@@ -2,6 +2,22 @@
 <html lang="ja">
 <head>
 <title>g-recaptcha タグを使って表示</title>
+  <meta charset="UTF-8">
+  <title></title><style>
+    body {
+      margin: 0;
+      height: 100vh; /* 画面の高さに合わせる */
+      display: flex;
+      justify-content: center; /* 水平方向の中央揃え */
+      align-items: center;     /* 垂直方向の中央揃え */
+      background-color: #f8f8f8;
+    }
+
+    .center-content {
+      color: gray; /* 文字の色を灰色に */
+      font-size: 24px;
+    }
+  </style>
 <script> 
   var verifyCallback = function(response) { //コールバック関数の定義
     //#warning の p 要素のテキストを空に
@@ -18,7 +34,6 @@
 </script>
 </head>
 <body>
-  <h1>g-recaptcha タグを使って表示</h1>
   <form method="post" action="?">
     <div class="g-recaptcha" data-sitekey="6LfPfhorAAAAAEZYkIqPmPNfVFMuQn6pz4yzl3ZT" data-callback="verifyCallback" data-expired-callback="expiredCallback"></div>
     <p id="warning">送信するにはチェックを入れてください。</p>
