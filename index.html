@@ -30,6 +30,13 @@
     document.getElementById("warning").textContent = '送信するにはチェックを・・・';
     //#send の button 要素に disabled 属性を設定
     document.getElementById("send").disabled = true;
+    
+    document.getElementById("send").addEventListener("click", function () {
+  if (!this.disabled) {
+    window.location.href = "https://ma-108.github.io/ColorPicker/"; // ← 遷移先URL
+  }
+});
+
   };
 </script>
 </head>
