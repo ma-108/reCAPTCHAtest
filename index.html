@@ -1,51 +1,69 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<title>g-recaptcha タグを使って表示</title>
   <meta charset="UTF-8">
-  <title></title><style>
+  <title>reCAPTCHAでページ移動</title>
+  <style>
     body {
       margin: 0;
-      height: 100vh; /* 画面の高さに合わせる */
+      height: 100vh;
       display: flex;
-      justify-content: center; /* 水平方向の中央揃え */
-      align-items: center;     /* 垂直方向の中央揃え */
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       background-color: #f8f8f8;
+      font-family: sans-serif;
     }
-
-    .center-content {
-      color: gray; /* 文字の色を灰色に */
-      font-size: 24px;
+    #send {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-top: 1rem;
+    }
+    #warning {
+      color: red;
+      margin-top: 0.5rem;
     }
   </style>
-<script> 
-  var verifyCallback = function(response) { //コールバック関数の定義
-    //#warning の p 要素のテキストを空に
-    document.getElementById("warning").textContent = '';
-    //#send の button 要素の disabled 属性を解除
-    document.getElementById("send").disabled = false;
-  };
-  var expiredCallback = function() { //コールバック関数の定義
-    //#warning の p 要素のテキストに文字列を設定
-    document.getElementById("warning").textContent = '送信するにはチェックを・・・';
-    //#send の button 要素に disabled 属性を設定
-    document.getElementById("send").disabled = true;
-    
-    document.getElementById("send").addEventListener("click", function () {
-  if (!this.disabled) {
-    window.location.href = "https://ma-108.github.io/ColorPicker/"; // ← 遷移先URL
-  }
-});
+  <script>
+    // reCAPTCHAのコールバック（認証成功時）
+    function verifyCallback(response) {
+      document.getElementById("warning").textContent = "";
+      document.getElementById("send").disabled = false;
+    }
 
-  };
-</script>
+    // reCAPTCHAの有効期限切れ
+    function expiredCallback() {
+      document.getElementById("warning").textContent = "送信するにはチェックを入れてください。";
+      document.getElementById("send").disabled = true;
+    }
+
+    // ページ遷移処理
+    window.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("send").addEventListener("click", () => {
+        if (!document.getElementById("send").disabled) {
+          // ✅ ここで遷移先を指定
+          window.location.href = "https://ma-108.github.io/ColorPicker/";
+        }
+      });
+    });
+  </script>
 </head>
 <body>
-  <form method="post" action="?">
-    <div class="g-recaptcha" data-sitekey="6LfPfhorAAAAAEZYkIqPmPNfVFMuQn6pz4yzl3ZT" data-callback="verifyCallback" data-expired-callback="expiredCallback"></div>
+
+  <!-- フォーム（実際は送信しない） -->
+  <form onsubmit="return false;">
+    <!-- ✅ ご自身のサイトキーを使用してください -->
+    <div class="g-recaptcha"
+         data-sitekey="6LfPfhorAAAAAEZYkIqPmPNfVFMuQn6pz4yzl3ZT"
+         data-callback="verifyCallback"
+         data-expired-callback="expiredCallback"></div>
+
     <p id="warning">送信するにはチェックを入れてください。</p>
-    <button id="send" type="submit" disabled>送信</button>
+    <button id="send" type="button" disabled>送信</button>
   </form>
+
+  <!-- ✅ GoogleのreCAPTCHAライブラリ -->
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
 </body>
 </html>
